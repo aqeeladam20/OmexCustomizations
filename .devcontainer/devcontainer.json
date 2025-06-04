@@ -1,0 +1,21 @@
+{
+  "name": "Frappe Bench",
+  // ready-made image with Bench, MariaDB, Redis, Node 18, Yarn, etc.
+  "image": "ghcr.io/vjfalk/frappe_codespace:latest",
+
+  "postCreateCommand": [
+    // pull ERPNext straight from the public repo
+    "bench get-app --branch version-15 erpnext https://github.com/frappe/erpnext.git",
+
+    // create a dev site and install ERPNext + your (empty) app
+    "bench new-site dev.omex.local --no-mariadb-socket --admin-password admin",
+    "bench --site dev.omex.local install-app erpnext",
+    "bench --site dev.omex.local install-app omex_customizations || true"
+  ],
+
+  "customizations": {
+    "vscode": {
+      "extensions": ["frappe.vscode-frappe-snippets"]   // helpful snippets
+    }
+  }
+}
